@@ -1,0 +1,21 @@
+{
+  "key": {
+    "id": "testid",
+    "item_id": "test_item"
+  },
+  "data": {
+    "id": 7664609870880660265,
+    "username": "Nova5728",
+    "level": 44,
+    "health": 35.554325,
+    "alive": false,
+    "inventory": [
+      "Gem",
+      "Helmet",
+      "Potion",
+      "Key",
+      "Apple",
+      "Banana"
+    ]
+  }
+}
