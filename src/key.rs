@@ -7,7 +7,7 @@ use serde::de::DeserializeOwned;
 
 
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Hash)]
 pub struct Key {
     pub id: String,
     pub item_id: String,
@@ -41,6 +41,16 @@ impl Key {
     pub fn new(id: String, item_id: String) -> Self {
         Self { id, item_id }
     }
+
+    pub const fn new_K(id: String, item_id: String) -> Self {
+        Self { id, item_id }
+    }
+
+    pub  fn new_key(id:  impl  Into<String>, item_id: impl Into<String>) -> Key {
+        Self { id: id.into(), item_id: item_id.into() }
+    }
+
+
 
     pub fn from_json(json: &str) -> Result<Self, serde_json::Error> {
         serde_json::from_str(json)
@@ -145,6 +155,12 @@ impl <T: Serialize + DeserializeOwned> RegObject<T> {
     pub fn id(&self) -> &String {
         &self.key.id
     }
+
+}
+
+
+
+impl Eq for Key{
 
 }
 

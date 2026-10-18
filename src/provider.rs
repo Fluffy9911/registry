@@ -17,6 +17,11 @@ impl <T: Serialize + DeserializeOwned> Provider<T> {
         Provider { objects: Vec::new() }
     }
 
+    pub  const fn create()-> Self {
+    
+    Provider { objects: Vec::new() }
+    }
+    
     pub fn register_object(&mut self, key: crate::key::Key, data: T) -> usize {
         let object = RegObject::new(key.clone(), data);
         let index = self.objects.len();
@@ -25,13 +30,31 @@ impl <T: Serialize + DeserializeOwned> Provider<T> {
         index
     }
 
+    pub fn register_new_item(&mut self, key: crate::key::Key, data: T)-> (usize,Key){
+
+        (self.register_object(key.clone(),data),key.clone())
+
+    }
+
     pub fn get_object_by_key(&self, key: &crate::key::Key) -> Option<&RegObject<T>> {
         let index = self.objects.iter().position(|obj| obj.key.id == key.id && obj.key.item_id == key.item_id);
         index.map(|i| &self.objects[i])
     }
 
+    pub fn get_object_by_key_mut(&mut self, key: &crate::key::Key) -> Option<&mut RegObject<T>> {
+        let index = self.objects.iter().position(|obj| {
+            obj.key.id == key.id && obj.key.item_id == key.item_id
+        })?;
+
+        Some(&mut self.objects[index])
+    }
+
     pub fn get_object_by_index(&self, index: usize) -> Option<&RegObject<T>> {
         self.objects.get(index)
+    }
+
+    pub fn get_object_by_index_mut(&mut self, index: usize) ->  Option<&mut RegObject<T>> {
+        self.objects.get_mut(index)
     }
 
     pub fn remove_object_by_key(&mut self, key: &crate::key::Key) -> Option<RegObject<T>> {
